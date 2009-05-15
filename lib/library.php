@@ -3,37 +3,39 @@
 $addr = address();
 $rel_addr = relative_address();
 
+require_once( $rel_addr.'/framework/lib/config.class.php' );
+
 // OB_START
 ob_start();
 
 /*
 **  S I T E   V A R I A B L E S
 */
-$SITE_NAME = 'Repository Aggregator';
+$SITE_NAME = Config::get( 'siteName'); //'Repository Aggregator';
 
 /*
 **   S E S S I O N S
 * 		you can add lotsa separate session stuff here
 */
-include $rel_addr.'/sessions/session.php';
+include $rel_addr.'/framework/sessions/session.php';
 
 /*
 ** I N C L U D E   F I L E S
 */
 // Database Connection
-include $rel_addr.'/lib/mysql_connect.php';
+//include $rel_addr.'/framework/lib/mysql_connect.php';
 
 // Header File
-include $rel_addr.'/lib/header.php';
+include $rel_addr.'/framework/lib/header.php';
 
 // Scripts File
-include $rel_addr.'/lib/scripts.php';
+include $rel_addr.'/framework/lib/scripts.php';
 
 // Navigation File
-include $rel_addr.'/lib/navigation.php';
+include $rel_addr.'/framework/lib/navigation.php';
 
 // Footer File
-include $rel_addr.'/lib/footer.php';
+include $rel_addr.'/framework/lib/footer.php';
 
 /*
 **   M Y S Q L 
@@ -53,6 +55,24 @@ function db_connect ($db_url, $db, $user, $pw){
     return die('<P>Could not connect to the MYSQL because: <B>' . mysql_error() . '');
   }
 }
+
+function connect() {
+  $db_url = Config::get( 'dbHostname' );
+  $db = Config::get( 'dbName' );
+  $user = Config::get( 'dbUsername' );
+  $pw = Config::get( 'dbPassword' );
+
+  if($dbc = @mysql_connect($db_url,$user,$pw)){
+    if (!@mysql_select_db ($db)){
+      return die('<p>Could not select the database because: <B>' . mysql_error() . '');
+    }else{
+      return $dbc;
+    }
+  }else{
+    return die('<P>Could not connect to the MYSQL because: <B>' . mysql_error() . '');
+  }
+}
+
 
 /*
 **   P H P
@@ -165,6 +185,7 @@ function head ($title, $style, $scripts){
   /* Functions for heredoc */
   $fnTitle = 'title';
   $fnStyle = 'style';
+  $fnScripts = 'script';
 
   $return = <<<EOT
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -174,7 +195,6 @@ function head ($title, $style, $scripts){
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     {$fnTitle($title)}
 {$fnStyle($style)}
-    $scripts
   </head>
 EOT;
 
@@ -223,7 +243,7 @@ EOT;
   echo $return;
   
   ob_end_flush();
-  mysql_close($dbc);
+  //  mysql_close($dbc);
 }
 
 ?>
