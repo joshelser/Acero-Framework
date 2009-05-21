@@ -15,13 +15,16 @@ $SITE_NAME = Config::get( 'siteName'); //'Repository Aggregator';
 **   S E S S I O N S
 * 		you can add lotsa separate session stuff here
 */
-include $rel_addr.'/sessions/session.php';
+//include $rel_addr.'/sessions/session.php';
 
 /*
 ** I N C L U D E   F I L E S
 */
 // Database Connection
 //include $rel_addr.'/framework/lib/mysql_connect.php';
+
+/* User authentication file */
+require_once( $rel_addr.'/lib/authentication.php' );
 
 // Header File
 include $rel_addr.'/lib/header.php';
@@ -34,6 +37,7 @@ include $rel_addr.'/lib/navigation.php';
 
 // Footer File
 include $rel_addr.'/lib/footer.php';
+
 
 /*
 **   M Y S Q L 
@@ -178,7 +182,7 @@ EOT;
   echo $return;
 }
 
-function body ($header,$subtitle=' ',$content,$navigation){
+function body( $header,$subtitle=' ', $content, $navigation ){
   /* Functions for heredoc */
   $fnNavigation = 'navigation';
   
@@ -206,7 +210,7 @@ EOT;
   echo $return;
 }
 
-function foot ($footer = 'All Rights Reserved',$dbc){
+function foot( $footer = 'All Rights Reserved' ){
   $return = <<<EOT
 \n
     <div id="footer">
@@ -220,7 +224,6 @@ EOT;
   echo $return;
   
   ob_end_flush();
-  //  mysql_close($dbc);
 }
 
 ?>

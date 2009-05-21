@@ -20,12 +20,12 @@ class Database{
   function connect() {
     if( $this->_link = @mysql_connect( $this->_dbUrl, $this->_dbUsername, $this->_dbPassword ) ){
       if( !@mysql_select_db ( $this->_dbName ) ){
-	return die('<p>Could not select the database because: <B>' . mysql_error() . '');
+	return die('<p>Could not select the database because: <b>' . mysql_error() . '</b></p>');
       }else{
 	return;
       }
     }else{
-      return die('<P>Could not connect to the MYSQL because: <B>' . mysql_error() . '');
+      return die('<p>Could not connect to the MYSQL because: <b>' . mysql_error() . '</b></p>');
     }
   }
 
@@ -36,9 +36,7 @@ class Database{
 
   /* Takes a variable number of arguments, sanitizes, and queries 
      First argument must be SQL - Variables are denoted by %1, %2... %13, etc
-     Subsequent arguments are variables to be substituted into the query 
-
-     NOTE: There must be a space on either side of %x variable*/
+     Subsequent arguments are variables to be substituted into the query */
   function query(){
     $numArgs = func_num_args();
 
@@ -55,11 +53,11 @@ class Database{
     for( $i = 1; $i < $numArgs; $i++ ){ /* Replaces all %x vars with their actual values */
       $arg = mysql_real_escape_string( func_get_arg( $i ), $this->_link );
 
-      if( !is_numeric( $arg ) ){ /* Add dobule quotes if necessary */
+      if( !is_numeric( $arg ) ){ /* Add double quotes if necessary for SQL */
 	$arg = '"'. $arg .'"';
       }
 
-      $sql = preg_replace( '/\s%'.$i.'\s/', ' '.$arg.' ', $sql ); /* Replacement */
+      $sql = preg_replace( '/\s?%'.$i.'\s/', ' '.$arg.' ', $sql ); /* Replacement */
     }
 
     $result = mysql_query( $sql, $this->_link ) or /* Execute the query */
