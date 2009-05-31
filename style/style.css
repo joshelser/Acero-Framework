@@ -82,16 +82,81 @@
     padding-left: 10px;
 }
 
-#repositoryMenu {
-    font-weight: bold;
-}
-    
-#repositorySubMenu {
-    display: none;
+#nav {
+    border:none;
+    border:0px;
+    margin:0px;
+    padding:0px;
+    font-weight:bold;
 }
 
-.headerSubMenu {
-    border: solid thin black;
-    padding: 5px;
-    width: 175px;
+#nav #repositoryMenu:hover ul {
+    list-style-type: none;
+    display: block;
+}
+
+#nav ul {
+    list-style-type: none;
+    height: 43px;
+}
+
+#nav ul li a {
+    font-style: normal;
+    text-decoration: none;
+    color: black;
+}
+
+#nav ul li  {
+    text-align: center;
+}
+
+#nav ul li a:hover {
+    color: gray;
+}
+
+#nav ul li:hover {
+    color: gray;
+}
+
+#nav ul li {
+    color: black;
+    width: 150px;
+}
+
+#nav li {
+    float: left;
+}
+
+#nav li li {
+    display: block;
+    float: none;
+}
+
+#nav li ul li {
+    display: block;
+}
+
+#nav li ul a {
+    display: block;
+    font-size: 12px;
+    font-style: normal;
+    padding: 0px 10px 0px 10px;
+    text-align: left;
+}
+
+#nav li ul a:hover {
+    background: #949494;
+    color: #000000;
+}
+
+#nav ul li ul {
+    padding: 10px;
+    text-align: center;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    display:none;
+    height:auto;
+    position:absolute;
+    z-index:200;
 }
